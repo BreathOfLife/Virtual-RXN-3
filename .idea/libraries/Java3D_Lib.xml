@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="Java3D Lib">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../../Java3D Lib/j3dcore.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../Java3D Lib/j3dutils.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../Java3D Lib/vecmath.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../Java3D Lib/jogamp-fat.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

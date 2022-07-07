@@ -51,7 +51,6 @@ public class Engine {
 		running = true;
 		setupDisplay();
 		ParticleSphere.init();
-		
 		// For testing
 		/*
 		Molecule molecule = new Molecule();

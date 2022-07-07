@@ -387,7 +387,6 @@ public class Display extends JPanel{
             case "Change Speed":
             	label.setText("10^" + String.valueOf(slider.getValue() / 10.0) + "x slower than real time");
             	Engine.setTimeMultiplier(Math.pow(10, slider.getValue() / 10.0 * -1));
-            	Engine.setPhysFPS((int) (15/(slider.getValue() / 10.0) * 60));
             	break;
             case "Change Physics Engine FPS":
             	label.setText(slider.getValue() + " frames per second");
@@ -439,7 +438,7 @@ public class Display extends JPanel{
 	}
 
 	public void changeSpeed() {
-		SliderSetter.start("Change Speed", 12 * 10, 18 * 10, 10 * (int) Math.log10(Engine.getTimeMultiplier()) * -1);
+		SliderSetter.start("Change Speed", 12 * 10, 18 * 10, (int) (10 * Math.log10(Engine.getTimeMultiplier()) * -1));
 	}
 	
 	public void changePhysFPS() {
