@@ -51,12 +51,6 @@ public class Engine {
 		running = true;
 		setupDisplay();
 		ParticleSphere.init();
-		// For testing
-		/*
-		Molecule molecule = new Molecule();
-		molecule.atoms.add(new Atom(6,6,6));
-		ParticleCreation.create(molecule, new Vector3D());
-		*/
 	}
 
 	private static void setupDisplay() {
