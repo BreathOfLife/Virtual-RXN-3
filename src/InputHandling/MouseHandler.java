@@ -75,7 +75,6 @@ public class MouseHandler extends PickMouseBehavior {
         
         @Override
         public void processStimulus (Enumeration criteria) {
-          try {
         	  WakeupCriterion wakeup;
               AWTEvent[] evt = null;
               int xpos = 0, ypos = 0;
@@ -102,10 +101,7 @@ public class MouseHandler extends PickMouseBehavior {
               if (buttonPress){
                 updateScene(xpos, ypos);
               }
-              wakeupOn (wakeupCondition);
-          } catch (NullPointerException e) {
-        	  
-          }
+              wakeupOn (new WakeupOnAWTEvent( MouseEvent.MOUSE_PRESSED ));
         }
         
         private void processMouseEvent(MouseEvent evt) {

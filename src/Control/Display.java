@@ -44,25 +44,7 @@ import javax.media.j3d.Transform3D;
 import javax.media.j3d.TransformGroup;
 import javax.media.j3d.TransparencyAttributes;
 import javax.media.j3d.View;
-import javax.swing.AbstractAction;
-import javax.swing.Action;
-import javax.swing.ActionMap;
-import javax.swing.BorderFactory;
-import javax.swing.InputMap;
-import javax.swing.JComponent;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JPopupMenu;
-import javax.swing.JSlider;
-import javax.swing.KeyStroke;
-import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
-import javax.swing.ToolTipManager;
+import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.vecmath.AxisAngle4d;
@@ -100,7 +82,8 @@ public class Display extends JPanel{
 	private TransformGroup viewingTransformGroup;
 	private Transform3D viewingTransform;
 	private View view;
-	
+
+	private MouseHandler mouseHandler;
 	private ButtonHandler bh;
 	private JMenuBar menuBar;
 	private JMenu existPartMenu;
@@ -151,7 +134,7 @@ public class Display extends JPanel{
 		}
 		JMenu moleculeMenu = new JMenu("Molecules");
 		newParticleMenu.add(moleculeMenu);
-		JMenuItem[] moleculeMenuItems = {new JMenuItem("H\u2082O"), new JMenuItem("CO\u2082"), new JMenuItem("O\u2082"), new JMenuItem("C\u2086H\u2086O\u2086"), new JMenuItem("Custom")};
+		JMenuItem[] moleculeMenuItems = {new JMenuItem("H\u2082O"), new JMenuItem("CO\u2082"), new JMenuItem("O\u2082"), new JMenuItem("C\u2086H\u2081\u2082O\u2086"), new JMenuItem("Custom")};
 		for (JMenuItem mI : moleculeMenuItems) {
 			mI.setActionCommand("P-M-" + mI.getText());
 			mI.addActionListener(bh);
@@ -166,16 +149,12 @@ public class Display extends JPanel{
 		
 		JMenu toolMenu = new JMenu("Tools");
 		menuBar.add(toolMenu);
-		JMenuItem[] toolMenuItems = {new JMenuItem("Move center particle"), new JMenuItem("Turn Trails On"), new JMenuItem("Clear Trails"), new JMenuItem("Change Speed"), new JMenuItem("Change Physics Engine FPS")};
+		JMenuItem[] toolMenuItems = {new JMenuItem("Tips"), new JMenuItem("Turn Trails On"), new JMenuItem("Clear Trails"), new JMenuItem("Change Speed"), new JMenuItem("Change Physics Engine FPS")};
 		for (JMenuItem mI : toolMenuItems) {
 			mI.setActionCommand("T-" + mI.getText());
 			mI.addActionListener(bh);
 			toolMenu.add(mI);
 		}
-		
-		
-		
-		
 
 		canvas = new Canvas3D(SimpleUniverse.getPreferredConfiguration());
 		canvas.setBackground(new Color(184, 204, 230));
@@ -290,16 +269,12 @@ public class Display extends JPanel{
 
 	public void addToExistingParticles(Particle part) {
 		JMenu partMenu = new JMenu(part.toString());
-		JMenuItem editItem = new JMenuItem("Edit");
 		JMenuItem viewItem = new JMenuItem("View");
 		JMenuItem removeItem = new JMenuItem("Remove");
-		editItem.setActionCommand("E-" + part.toString() + "-E");
-		editItem.addActionListener(bh);
 		viewItem.setActionCommand("E-" + part.toString() + "-V");
 		viewItem.addActionListener(bh);
 		removeItem.setActionCommand("E-" + part.toString() + "-R");
 		removeItem.addActionListener(bh);
-		partMenu.add(editItem);
 		partMenu.add(viewItem);
 		partMenu.add(removeItem);
 		existPartMenu.add(partMenu);
@@ -340,7 +315,7 @@ public class Display extends JPanel{
 	}
 	
 	public void setupMouseListener() {
-		MouseHandler mouseHandler = new MouseHandler(canvas, mainBranch, new BoundingSphere());
+		mouseHandler = new MouseHandler(canvas, mainBranch, new BoundingSphere());
 		mainBranch.addChild(mouseHandler);
 	}
 	
@@ -367,7 +342,12 @@ public class Display extends JPanel{
 	public int yesNoMsg(String string) {
 		return JOptionPane.showConfirmDialog(this, string, "Virtual RXN 3 Confirm", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 	}
-	
+
+	public void displayTips() {
+		String tips = "Press the H key to toggle on and off labels on particles (H stands for hide)\nPress the ESC key to cancel/turn off addition mode after you've selected a new particle to add\nPress the SPACE key to freeze/unfreeze time";
+		JOptionPane.showMessageDialog(this, tips, "Virtual RXN 3 Tips", JOptionPane.INFORMATION_MESSAGE);
+	}
+
 	private static class SliderSetter extends JPanel{
 		private JSlider slider;
 	    private JLabel label;
@@ -458,10 +438,6 @@ public class Display extends JPanel{
 		addedByCursor = null;
 		removeAllPartsFromUniv();
 		existPartMenu.removeAll();
-		
-		mainBranch.detach();
-		setupMouseListener();
-		root.addChild(mainBranch);
 	}
 
 	public void removeAllPartsFromUniv() {

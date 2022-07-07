@@ -113,7 +113,7 @@ public class ButtonHandler implements ActionListener {
 								molecule.atoms.add(new Atom(8,8,8));
 								molecule.atoms.add(new Atom(8,8,8));
 								break;
-							case "C\u2086H\u2086O\u2086":
+							case "C\u2086H\u2081\u2082O\u2086":
 								//Create a new glucose
 								molecule.atoms.add(new Atom(6,6,6));
 								molecule.atoms.add(new Atom(6,6,6));
@@ -141,8 +141,9 @@ public class ButtonHandler implements ActionListener {
 								molecule.atoms.add(new Atom(1,0,0));
 								break;
 							case "Custom":
-								//TODO
 								//Create a custom molecule
+								//TODO
+								Engine.getDisp().errorMsg("I'm still working on this, explore a different part of the program for now");
 								break;
 							default:
 								System.out.println("Error: Unregistered Action Command: " + e.getActionCommand());
@@ -161,10 +162,6 @@ public class ButtonHandler implements ActionListener {
 					case "V":
 						Engine.getDisp().setGazeObj(Engine.findParticleByName(splitCommand[1]));
 						break;
-					case "E":
-						//TODO
-						//Edit a particular particle
-						break;
 					case "R":
 						//Remove a particular particle
 						Engine.findParticleByName(splitCommand[1]).removeFromUniv();
@@ -175,6 +172,9 @@ public class ButtonHandler implements ActionListener {
 				break;	
 			case "T":
 				switch (splitCommand[1]) {
+					case "Tips":
+						Engine.getDisp().displayTips();
+						break;
 					case "Turn Trails On":
 						//Turn particle trails on
 						int result = Engine.getDisp().yesNoMsg("It is recommended to reduce engine FPS and speed before turning on trails to due high processing load, are you sure you want to continue?");
