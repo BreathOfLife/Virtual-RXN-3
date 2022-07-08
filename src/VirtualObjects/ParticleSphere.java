@@ -98,7 +98,6 @@ public class ParticleSphere {
 			Font3D atomLabelFont = new Font3D(new Font(Font.DIALOG, Font.BOLD, 50), new FontExtrusion());
 			String atomLabelStringWithParentheses = part.getName().substring(part.getName().indexOf('('));
 			String atomLabelString = atomLabelStringWithParentheses.substring(1,atomLabelStringWithParentheses.length() - 1);
-			System.out.println(atomLabelString);
 			Text3D atomLabelGeom = new Text3D(atomLabelFont, atomLabelString);
 			atomLabelGeom.setAlignment(Text3D.ALIGN_CENTER);
 			Appearance atomLabelAp = new Appearance();

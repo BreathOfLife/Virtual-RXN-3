@@ -180,6 +180,7 @@ public class Display extends JPanel{
 		orbit = new MovableOrbitBH(canvas, OrbitBehavior.REVERSE_ROTATE | OrbitBehavior.PROPORTIONAL_ZOOM | OrbitBehavior.STOP_ZOOM);
 		orbit.setSchedulingBounds(new BoundingSphere());
 		orbit.setMinRadius(1e-16);
+		orbit.setZoomFactor(0.15);
 		
 		root = new BranchGroup();
 		root.setCapability(BranchGroup.ALLOW_DETACH);

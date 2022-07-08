@@ -8,17 +8,14 @@ import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
+import java.util.Properties;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import com.formdev.flatlaf.FlatDarculaLaf;
 import com.sun.j3d.utils.picking.PickTool;
 import javax.media.j3d.Node;
-import javax.swing.JFileChooser;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-import javax.swing.JPopupMenu;
-import javax.swing.SwingUtilities;
-import javax.swing.ToolTipManager;
+import javax.swing.*;
 
 import com.sun.j3d.utils.geometry.*;
 
@@ -55,6 +52,8 @@ public class Engine {
 	}
 
 	private static void setupDisplay() {
+		FlatDarculaLaf.setup();
+
 		System.setProperty("sun.awt.noerasebackground", "true");
 		JPopupMenu.setDefaultLightWeightPopupEnabled(false);
 		ToolTipManager ttm = ToolTipManager.sharedInstance();
@@ -158,15 +157,6 @@ public class Engine {
 
 	public static void setPhysFPS(int value) {
 		physFPS = value;
-	}
-
-	public static void setScreenFPS(int value) {
-		screenFPS = value;
-		
-	}
-
-	public static int getScreenFPS() {
-		return screenFPS;
 	}
 
 	public static int getPhysFPS() {
