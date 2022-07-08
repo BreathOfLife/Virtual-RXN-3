@@ -59,12 +59,14 @@ public class ParticleDesigner {
 
 		pTable = new JPanel();
 		mainPanel.add(pTable, BorderLayout.CENTER);
-		pTable.setLayout(new GridLayout(7, 32));
+		GridLayout pTableLO = new GridLayout(7, 32);
+		pTable.setLayout(pTableLO);
 		ActionListener listenerA = new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				String symb = ((JButton) e.getSource()).getText();
+				JButton butt = (JButton) e.getSource();
+				String symb = butt.getText();
 				for (int i = 0; i < atomSymbols.length; i++) {
 					if (atomSymbols[i].equals(symb)) {
 						protonSpin.setValue(i+1);
@@ -97,7 +99,8 @@ public class ParticleDesigner {
 				pTable.add(new JLabel());
 			}
 		}
-		
+		pTable.setMaximumSize(new Dimension(832,182));
+
 		JPanel detailPanel = new JPanel();
 		mainPanel.add(detailPanel, BorderLayout.SOUTH);
 		detailPanel.setLayout(new GridLayout(1,3));
