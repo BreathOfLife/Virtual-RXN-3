@@ -1,8 +1,6 @@
 package Control;
 
-import java.awt.Color;
-import java.awt.GraphicsDevice;
-import java.awt.GraphicsEnvironment;
+import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.Properties;
@@ -56,13 +54,18 @@ public class Engine {
 		ToolTipManager ttm = ToolTipManager.sharedInstance();
 		ttm.setLightWeightPopupEnabled(false);
 
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+
 		disp = new Display();
 		disp.init();
 		frame = new JFrame("Virtual RXN 3");
+		Display.WIDTH = (int) (screenSize.getWidth() * 0.9);
+		Display.HEIGHT = (int) (screenSize.getWidth() * 0.5);
 		frame.setSize(Display.WIDTH, Display.HEIGHT);
 		frame.getContentPane().add(disp);
 		frame.setVisible(true);
 		frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		frame.setLocationRelativeTo(null);
 		WindowAdapter exitListener = new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {

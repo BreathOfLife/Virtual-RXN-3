@@ -59,8 +59,8 @@ import javax.vecmath.Vector3f;
 
 public class Display extends JPanel{
 
-	public static final int WIDTH = 1000;
-	public static final int HEIGHT = 750;
+	public static int WIDTH = 1000;
+	public static int HEIGHT = 750;
 
 	private Vector3D eyePosStart;
 	private Vector3D gazePoint; //Gaze Point is used as an offset for all other particles, essentially instead of the camera moving around with all the other particles, the universe moves opposite to the gaze point to make it look like we are moving with the particle
