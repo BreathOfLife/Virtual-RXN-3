@@ -13,6 +13,7 @@ import java.util.Collections;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import Reference.PhysCalc;
 import com.sun.j3d.utils.universe.*;
 
 import InputHandling.ButtonHandler;
@@ -61,7 +62,7 @@ public class Display extends JPanel{
 	public static final int WIDTH = 1000;
 	public static final int HEIGHT = 750;
 
-	private Vector3D eyePos;
+	private Vector3D eyePosStart;
 	private Vector3D gazePoint; //Gaze Point is used as an offset for all other particles, essentially instead of the camera moving around with all the other particles, the universe moves opposite to the gaze point to make it look like we are moving with the particle
 	private boolean gazeChanging;
 	private double gazeDiffSegment;
@@ -89,7 +90,7 @@ public class Display extends JPanel{
 	private JMenu existPartMenu;
 	
 	public void init() {
-		eyePos = new Vector3D(1.5e-10, 0, 0);
+		eyePosStart = new Vector3D(1.5e-10, 0, 0);
 		gazePoint = new Vector3D();
 		gazeChanging = false;
 		finalGazePoint = new Vector3D();
@@ -198,7 +199,7 @@ public class Display extends JPanel{
 		
 		
 		viewingTransform = new Transform3D();
-		viewingTransform.lookAt(eyePos.toJ3dPnt(), new Vector3D().toJ3dPnt(), upDir);
+		viewingTransform.lookAt(eyePosStart.toJ3dPnt(), new Vector3D().toJ3dPnt(), upDir);
 		viewingTransform.invert();
 		viewingTransformGroup.setTransform(viewingTransform);
 		orbit.setHomeTransform(viewingTransform);
@@ -243,6 +244,20 @@ public class Display extends JPanel{
 				gazePoint = gazeObj.getPos();
 			}
 					}
+		Transform3D trans = new Transform3D();
+		view.getViewPlatform().getLocalToVworld(trans);
+		Vector3d pos = new Vector3d();
+		trans.get(pos);
+		Vector3D eyePos = new Vector3D(pos);
+		if (eyePos.sub(gazePoint).getMagnitude() > 2e-10) {
+			if (Engine.isLabelsSubatomic()) {
+				Engine.setLabelsSubatomic(false);
+			}
+		} else {
+			if (!Engine.isLabelsSubatomic()) {
+				Engine.setLabelsSubatomic(true);
+			}
+		}
 	}
 
 	public SimpleUniverse getUniverse() {
@@ -430,7 +445,7 @@ public class Display extends JPanel{
 	}
 
 	public void reset() {
-		eyePos = new Vector3D(1.5e-10, 0, 0);
+		eyePosStart = new Vector3D(1.5e-10, 0, 0);
 		gazePoint = new Vector3D();
 		gazeChanging = false;
 		finalGazePoint = new Vector3D();

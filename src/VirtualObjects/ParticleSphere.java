@@ -36,15 +36,21 @@ public class ParticleSphere {
 	private OrientedShape3D label;
 	private TransformGroup labelGroup;
 	private Transform3D labelTrans;
+	private OrientedShape3D atomLabel;
+	private TransformGroup atomLabelGroup;
+	private Transform3D atomLabelTrans;
 	private Transform3D trans;
 	private TransformGroup group;
 	private ArrayList<TransformGroup> trailGroups;
 	private ArrayList<Vector3D> trailBasePos;
 	private static boolean haltTrails = false;
 	private static RenderingAttributes labelRA = new RenderingAttributes();
+	private static RenderingAttributes atomLabelRA = new RenderingAttributes();
 
 	public static void init() {
 		labelRA.setCapability(RenderingAttributes.ALLOW_VISIBLE_WRITE);
+		atomLabelRA.setCapability(RenderingAttributes.ALLOW_VISIBLE_WRITE);
+		updateLabelVisibility();
 	}
 	
 	public ParticleSphere(Particle part) {
@@ -87,7 +93,29 @@ public class ParticleSphere {
 		labelGroup.setTransform(labelTrans);
 		labelGroup.addChild(label);
 		Engine.getDisp().addToUniv(labelGroup);
-		
+
+		if (part instanceof Nucleus) {
+			Font3D atomLabelFont = new Font3D(new Font(Font.DIALOG, Font.BOLD, 50), new FontExtrusion());
+			String atomLabelStringWithParentheses = part.getName().substring(part.getName().indexOf('('));
+			String atomLabelString = atomLabelStringWithParentheses.substring(1,atomLabelStringWithParentheses.length() - 1);
+			System.out.println(atomLabelString);
+			Text3D atomLabelGeom = new Text3D(atomLabelFont, atomLabelString);
+			atomLabelGeom.setAlignment(Text3D.ALIGN_CENTER);
+			Appearance atomLabelAp = new Appearance();
+			atomLabelAp.setRenderingAttributes(atomLabelRA);
+			atomLabelAp.setMaterial(new Material(mainColor, black, mainColor, black, 1.0f));
+			atomLabel = new OrientedShape3D(atomLabelGeom, atomLabelAp, OrientedShape3D.ROTATE_ABOUT_POINT, new Point3f(), true, 8e-3);
+			atomLabelGroup = new TransformGroup();
+			atomLabelGroup.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
+			atomLabelGroup.setCapability(TransformGroup.ALLOW_CHILDREN_WRITE);
+			atomLabelGroup.setCapability(TransformGroup.ALLOW_CHILDREN_EXTEND);
+			atomLabelTrans = new Transform3D();
+			atomLabelTrans.setTranslation(part.getPos().sub(Engine.getDisp().getGazePnt()).add(0,0,part.getRadius()*2).toJ3dVec());
+			atomLabelGroup.setTransform(atomLabelTrans);
+			atomLabelGroup.addChild(atomLabel);
+			Engine.getDisp().addToUniv(atomLabelGroup);
+		}
+
 		sphere.setAppearance(ap);
 		this.trans = new Transform3D();
 		this.group = new TransformGroup();
@@ -114,6 +142,11 @@ public class ParticleSphere {
 		
 		labelTrans.setTranslation(pos.sub(Engine.getDisp().getGazePnt()).add(0,0,part.getRadius()*2).toJ3dVec());
 		labelGroup.setTransform(labelTrans);
+
+		if (part instanceof Nucleus) {
+			atomLabelTrans.setTranslation(pos.sub(Engine.getDisp().getGazePnt()).add(0,0,part.getRadius()*2).toJ3dVec());
+			atomLabelGroup.setTransform(atomLabelTrans);
+		}
 		
 		if (Engine.trailsOn() && !haltTrails) {
 			//Create new trail sphere
@@ -174,12 +207,14 @@ public class ParticleSphere {
 	public TransformGroup getTransGroup() {
 		return group;
 	}
-	
-	public static void labelsOff() {
-		labelRA.setVisible(false);
-	}
-	
-	public static void labelsOn() {
-		labelRA.setVisible(true);
+
+	public static void updateLabelVisibility() {
+		if (Engine.isLabelsSubatomic()) {
+			labelRA.setVisible(Engine.isPartLabelsOn());
+			atomLabelRA.setVisible(false);
+		} else {
+			labelRA.setVisible(false);
+			atomLabelRA.setVisible(Engine.isPartLabelsOn());
+		}
 	}
 }

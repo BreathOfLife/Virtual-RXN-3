@@ -45,6 +45,7 @@ public class Engine {
 	private static JFrame frame;
 	private static boolean paused = false;
 	private static boolean partLabelsOn = true;
+	private static boolean labelsSubatomic = true;
 
 	public static void main(String[] args) {
 		allParticles = new ArrayList<>();
@@ -200,10 +201,19 @@ public class Engine {
 	
 	public static void toggleShowPartLabels() {
 		partLabelsOn = !partLabelsOn;
-		if (partLabelsOn) {
-			ParticleSphere.labelsOn();
-		} else {
-			ParticleSphere.labelsOff();
-		}
+		ParticleSphere.updateLabelVisibility();
+	}
+
+	public static boolean isLabelsSubatomic() {
+		return labelsSubatomic;
+	}
+
+	public static boolean isPartLabelsOn() {
+		return partLabelsOn;
+	}
+
+	public static void setLabelsSubatomic(boolean b) {
+		labelsSubatomic = b;
+		ParticleSphere.updateLabelVisibility();
 	}
 }
