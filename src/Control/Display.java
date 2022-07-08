@@ -270,8 +270,8 @@ public class Display extends JPanel{
 			mainBranch.detach();
 			mainBranch.addChild(node);
 			root.addChild(mainBranch);
+			canvas.repaint();
 		}
-		
 	}
 	
 	public void setGazeObj(Particle part) {
@@ -318,6 +318,7 @@ public class Display extends JPanel{
 			mainBranch.detach();
 			mainBranch.removeChild(node);
 			root.addChild(mainBranch);
+			canvas.repaint();
 		}
 		
 	}
