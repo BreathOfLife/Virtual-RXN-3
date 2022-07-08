@@ -271,12 +271,6 @@ public class Display extends JPanel{
 			mainBranch.detach();
 			mainBranch.addChild(node);
 			root.addChild(mainBranch);
-
-			//Strange but useful fix to stop particles from not appearing at beginning of program
-			Engine.getFrame().setSize(Engine.getFrame().getWidth() + 1, Engine.getFrame().getHeight());
-			Engine.getFrame().setSize(Engine.getFrame().getWidth() + 1, Engine.getFrame().getHeight());
-			Engine.getFrame().setSize(Engine.getFrame().getWidth() - 1, Engine.getFrame().getHeight());
-			Engine.getFrame().setSize(Engine.getFrame().getWidth() - 1, Engine.getFrame().getHeight());
 		}
 	}
 	
@@ -366,7 +360,7 @@ public class Display extends JPanel{
 	}
 
 	public void displayTips() {
-		String tips = "Press the H key to toggle on and off labels on particles (H stands for hide)\nPress the ESC key to cancel/turn off addition mode after you've selected a new particle to add\nPress the SPACE key to freeze/unfreeze time";
+		String tips = "Press the H key to toggle on and off labels on particles (H stands for hide)\nPress the ESC key to cancel/turn off addition mode after you've selected a new particle to add\nPress the SPACE key to freeze/unfreeze time\nOn some computers, it will appear as if atoms you add to the scene are not being added, try resizing your window and see if they appear";
 		JOptionPane.showMessageDialog(this, tips, "Virtual RXN 3 Tips", JOptionPane.INFORMATION_MESSAGE);
 	}
 
