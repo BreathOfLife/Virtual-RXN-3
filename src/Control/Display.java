@@ -274,7 +274,7 @@ public class Display extends JPanel{
 
 			//Strange but useful fix to stop particles from not appearing at beginning of program
 			Engine.getFrame().setSize(Engine.getFrame().getWidth() + 1, Engine.getFrame().getHeight());
-			Engine.getFrame().setSize(Engine.getFrame().getWidth() + 1, Engine.getFrame().getHeight());
+			Engine.getFrame().setSize(Engine.getFrame().getWidth() - 1, Engine.getFrame().getHeight());
 		}
 	}
 	
