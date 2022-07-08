@@ -159,6 +159,7 @@ public class Display extends JPanel{
 
 		canvas = new Canvas3D(SimpleUniverse.getPreferredConfiguration());
 		canvas.setBackground(new Color(184, 204, 230));
+		canvas.setDoubleBufferEnable(true);
 		add("Center", canvas);
 		universe = new SimpleUniverse(canvas);
 		mainBranch = new BranchGroup();
@@ -270,7 +271,6 @@ public class Display extends JPanel{
 			mainBranch.detach();
 			mainBranch.addChild(node);
 			root.addChild(mainBranch);
-			canvas.repaint();
 		}
 	}
 	
@@ -318,7 +318,6 @@ public class Display extends JPanel{
 			mainBranch.detach();
 			mainBranch.removeChild(node);
 			root.addChild(mainBranch);
-			canvas.repaint();
 		}
 		
 	}

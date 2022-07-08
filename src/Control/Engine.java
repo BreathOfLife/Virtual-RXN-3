@@ -76,11 +76,6 @@ public class Engine {
 				}
 			}
 		};
-		frame.addComponentListener(new ComponentAdapter() {
-			public void componentResized(ComponentEvent componentEvent) {
-				disp.getCanvas().repaint();
-			}
-		});
 		frame.addWindowListener(exitListener);
 		
 	}
