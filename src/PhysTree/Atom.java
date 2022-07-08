@@ -15,6 +15,7 @@ public class Atom {
 	}
 
 	public int protons, neutrons, electrons;
+	public String name;
 
 	public void setElectrons(int value) {
 		this.electrons = value;

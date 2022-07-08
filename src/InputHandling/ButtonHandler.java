@@ -142,8 +142,7 @@ public class ButtonHandler implements ActionListener {
 								break;
 							case "Custom":
 								//Create a custom molecule
-								//TODO
-								Engine.getDisp().errorMsg("I'm still working on this, explore a different part of the program for now");
+								ParticleDesigner.customMolecule();
 								break;
 							default:
 								System.out.println("Error: Unregistered Action Command: " + e.getActionCommand());

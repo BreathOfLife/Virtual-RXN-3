@@ -77,7 +77,7 @@ public class Display extends JPanel{
 	private BranchGroup root;
 	private BranchGroup mainBranch;
 	private MovableOrbitBH orbit;
-	private PickCanvas pickCanvas;
+	private JPanel customParticlePanel;
 	
 	private Molecule addedByCursor;
 	private TransformGroup viewingTransformGroup;
@@ -228,6 +228,10 @@ public class Display extends JPanel{
 
 
 		canvas.repaint();
+
+		customParticlePanel = new JPanel();
+		customParticlePanel.setLayout(new BoxLayout(customParticlePanel, BoxLayout.PAGE_AXIS));
+		add(customParticlePanel, BorderLayout.EAST);
 	}
 
 	public void update() {
@@ -467,6 +471,10 @@ public class Display extends JPanel{
 			}
 			root.addChild(mainBranch);
 		}
+	}
+
+	public JPanel getCustomParticlePanel() {
+		return customParticlePanel;
 	}
 
 }

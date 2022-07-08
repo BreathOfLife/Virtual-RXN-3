@@ -48,12 +48,18 @@ public class ParticleCreation {
 	}
 
 	public static void create(Atom atom, Vector3D originPoint) {
-		String symbol = "";
-		if (atom.protons > 0) {
-			symbol = " (" + atomSymbols[atom.protons - 1] + ")";
+		String atomName;
+		if (atom.name == null) {
+			if (atom.protons > 0) {
+				atomName = " (" + atomSymbols[atom.protons - 1] + ")";
+			} else {
+				atomName = "";
+			}
+		} else {
+			atomName = "(" + atom.name + ")";
 		}
 		if (atom.protons > 0 || atom.neutrons > 0) {
-			Nucleus n = new Nucleus(atom.neutrons, atom.protons, originPoint, new Vector3D(), "N" + symbol);
+			Nucleus n = new Nucleus(atom.neutrons, atom.protons, originPoint, new Vector3D(), "N" + atomName);
 			Engine.getAllParticles().add(n);
 		}
 		for (int i = 1; i <= atom.electrons; i++) {
@@ -70,7 +76,7 @@ public class ParticleCreation {
 				vel = posRelToOrigin.crossProd(Vector3D.random(1));
 			}
 			
-			Electron e =  new Electron(posRelToOrigin.add(originPoint), vel, "E" + i + symbol);
+			Electron e =  new Electron(posRelToOrigin.add(originPoint), vel, "E" + i + atomName);
 			Engine.getAllParticles().add(e);
 		}
 	}
