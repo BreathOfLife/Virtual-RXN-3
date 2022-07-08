@@ -224,9 +224,9 @@ public class Display extends JPanel{
 		
 		root.addChild(mainBranch);
 		universe.addBranchGraph(root);
-		
 
-		
+
+		canvas.repaint();
 	}
 
 	public void update() {

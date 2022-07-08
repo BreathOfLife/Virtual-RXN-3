@@ -3,10 +3,7 @@ package Control;
 import java.awt.Color;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.Properties;
 import java.util.Timer;
@@ -76,6 +73,11 @@ public class Engine {
 				}
 			}
 		};
+		frame.addComponentListener(new ComponentAdapter() {
+			public void componentResized(ComponentEvent componentEvent) {
+				disp.getCanvas().repaint();
+			}
+		});
 		frame.addWindowListener(exitListener);
 		
 	}
