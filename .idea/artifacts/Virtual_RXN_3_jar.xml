@@ -1,6 +1,6 @@
 <component name="ArtifactManager">
   <artifact type="jar" build-on-make="true" name="Virtual-RXN-3:jar">
-    <output-path>$PROJECT_DIR$/VRXN3 Output/bin</output-path>
+    <output-path>$PROJECT_DIR$/VRXN3 Output/source</output-path>
     <root id="archive" name="Virtual-RXN-3.jar">
       <element id="module-output" name="Virtual-RXN-3" />
       <element id="extracted-dir" path="$PROJECT_DIR$/../../Java3D Lib/j3dcore.jar" path-in-jar="/" />
