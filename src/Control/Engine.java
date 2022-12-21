@@ -39,6 +39,8 @@ public class Engine {
 	private static boolean partLabelsOn = true;
 	private static boolean labelsSubatomic = true;
 
+	private static boolean debugRunningBehindOn = false;
+
 	public static void main(String[] args) {
 		allParticles = new ArrayList<>();
 		running = true;
@@ -77,7 +79,7 @@ public class Engine {
 			}
 		};
 		frame.addWindowListener(exitListener);
-		
+		frame.setSize(Display.WIDTH+2,Display.HEIGHT);
 	}
 
 	public static double getTimeMultiplier() {
@@ -205,5 +207,9 @@ public class Engine {
 	public static void setLabelsSubatomic(boolean b) {
 		labelsSubatomic = b;
 		ParticleSphere.updateLabelVisibility();
+	}
+
+	public static boolean isDebugRunningBehindOn() {
+		return debugRunningBehindOn;
 	}
 }

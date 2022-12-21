@@ -23,7 +23,7 @@ public class ParticleThread extends Thread {
 					e.printStackTrace();
 				}
 			} else {
-				if (Engine.isRunning()) {
+				if (Engine.isRunning() && Engine.isDebugRunningBehindOn()) {
 					System.out.printf("%s running behind by %d milliseconds\n", particle.getName(), -1 * sleepTime);
 				}
 			}

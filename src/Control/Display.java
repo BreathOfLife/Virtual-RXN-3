@@ -162,6 +162,7 @@ public class Display extends JPanel{
 		canvas.setDoubleBufferEnable(true);
 		add("Center", canvas);
 		universe = new SimpleUniverse(canvas);
+		canvas.getView().setMinimumFrameCycleTime(20);
 		mainBranch = new BranchGroup();
 		mainBranch.setCapability(BranchGroup.ALLOW_DETACH);
 		mainBranch.setCapability(BranchGroup.ALLOW_CHILDREN_WRITE);
@@ -232,6 +233,7 @@ public class Display extends JPanel{
 		customParticlePanel = new JPanel();
 		customParticlePanel.setLayout(new BoxLayout(customParticlePanel, BoxLayout.PAGE_AXIS));
 		add(customParticlePanel, BorderLayout.EAST);
+
 	}
 
 	public void update() {
