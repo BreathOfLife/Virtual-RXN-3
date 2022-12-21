@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="FormDev FlatLaf">
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/../../java/libs/FormDev FlatLaf" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+    <jarDirectory url="file://$PROJECT_DIR$/../../java/libs/FormDev FlatLaf" recursive="false" />
+  </library>
+</component>
