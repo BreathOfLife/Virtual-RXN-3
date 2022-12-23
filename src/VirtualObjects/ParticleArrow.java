@@ -7,7 +7,7 @@ import javax.media.j3d.ColoringAttributes;
 import javax.media.j3d.Material;
 import javax.media.j3d.Transform3D;
 import javax.media.j3d.TransformGroup;
-import javax.vecmath.Color3f;
+import javax.vecmath.*;
 
 import com.sun.j3d.utils.geometry.Cone;
 
@@ -18,6 +18,9 @@ import com.sun.j3d.utils.geometry.Cylinder;
 
 public class ParticleArrow {
 
+	private Transform3D coneOffset;
+
+	private TransformGroup groupCone;
 	private Particle part;
 	private Cone cone;
 	private Cylinder cylinder;
@@ -28,7 +31,7 @@ public class ParticleArrow {
 
 	public ParticleArrow(Particle part, char type) {
 		this.part = part;
-		this.cone = new Cone((float) part.getRadius() / 2, (float) part.getRadius() * 3);
+		this.cone = new Cone((float) part.getRadius() / 2, (float) part.getRadius());
 		this.cylinder = new Cylinder((float) ((float) part.getRadius() / 3), (float) part.getRadius() * 3);
 		Appearance ap = new Appearance();
 		ap.setColoringAttributes(new ColoringAttributes(new Color3f(Color.CYAN), ColoringAttributes.NICEST));
@@ -39,11 +42,16 @@ public class ParticleArrow {
 		cylinder.setAppearance(ap);
 		this.transl = new Transform3D();
 		this.rot = new Transform3D();
+		this.coneOffset = new Transform3D();
 		this.groupT = new TransformGroup();
 		this.groupR = new TransformGroup();
+		this.groupCone = new TransformGroup();
+		groupCone.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
+		groupCone.setTransform(coneOffset);
+		groupCone.addChild(cone);
 		groupR.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
 		groupR.setTransform(rot);
-		groupR.addChild(cone);
+		groupR.addChild(groupCone);
 		groupR.addChild(cylinder);
 		groupT.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
 		transl.setTranslation(part.getPos().sub(Engine.getDisp().getGazePnt()).toJ3dVec());
@@ -61,12 +69,14 @@ public class ParticleArrow {
 	}
 
 	public void updatePos(Vector3D vec) {
-		Vector3D innerVecSection = vec.getDir().mult(part.getRadius());
+		Vector3D innerVecSection = vec.getDir().mult(part.getRadius() * 2);
 		Vector3D fullVec = part.getPos().add(innerVecSection);
+		coneOffset.setTranslation(vec.getDir().mult(part.getRadius() * 3).toJ3dVec());
 		transl.setTranslation(fullVec.sub(Engine.getDisp().getGazePnt()).toJ3dVec());
-		rot.setRotation(vec.toJ3dRotQuat());
+		//rot =
 		groupT.setTransform(transl);
 		groupR.setTransform(rot);
+		groupCone.setTransform(coneOffset);
 		
 	}
 

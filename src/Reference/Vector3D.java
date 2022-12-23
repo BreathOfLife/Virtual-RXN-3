@@ -2,11 +2,7 @@ package Reference;
 
 import java.io.Serializable;
 
-import javax.vecmath.Matrix3d;
-import javax.vecmath.Point3d;
-import javax.vecmath.Point3f;
-import javax.vecmath.Quat4d;
-import javax.vecmath.Vector3d;
+import javax.vecmath.*;
 
 public class Vector3D  implements Serializable{
 	public double x, y, z;
@@ -126,6 +122,7 @@ public class Vector3D  implements Serializable{
 		return x*v.x+y*v.y+z*v.z;
 	}
 	
+	/* Incorrect I think
 	public Quat4d toJ3dRotQuat() {
 
         if (x == 0 && y == 0 && z == 0) {
@@ -151,6 +148,7 @@ public class Vector3D  implements Serializable{
         final double d = (double) Math.cos(angleX / 2);
 		return new Quat4d(a, b, c, d);
 	}
+	 */
 
 	public double angle(Vector3D v) {
 		return Math.toDegrees(Math.acos(dot(v) / (getMagnitude() * v.getMagnitude())));
@@ -166,4 +164,9 @@ public class Vector3D  implements Serializable{
 	public Point3f toJ3dPntF() {
 		return new Point3f((float)x, (float)y, (float)z);
 	}
+
+    public Matrix3d toJ3dMat3d() {
+		Matrix3d m3d = new Matrix3d(x,0,0,y,0,0,z,0,0);
+		return m3d;
+    }
 }
