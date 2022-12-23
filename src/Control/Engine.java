@@ -23,7 +23,8 @@ import VirtualObjects.ParticleSphere;
 public class Engine {
 
 	private static final double spacerDist = 1e-11; // If the particles are exactly on each others location, give a tiny
-													// bit of separation just to get the ball rolling
+
+	// bit of separation just to get the ball rolling
 	private static ArrayList<Particle> allParticles;
 	private static double timeMultiplier = 1e-15; // The amount of time that should be processed in-sim for every one
 													// second in the real world (Should be 1e-8?) 1e-15 seems to work well though
@@ -39,7 +40,8 @@ public class Engine {
 	private static boolean partLabelsOn = true;
 	private static boolean labelsSubatomic = true;
 
-	private static boolean debugRunningBehindOn = false;
+	private static boolean debugRunningBehindOn = true;
+	public static boolean vectorsOn = false;
 
 	public static void main(String[] args) {
 		allParticles = new ArrayList<>();

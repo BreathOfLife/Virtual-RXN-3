@@ -48,8 +48,10 @@ public abstract class Particle implements Serializable{
 	public void start() {
 		Engine.getDisp().addToExistingParticles(this);
 		sphere = new ParticleSphere(this);
-		velCone = new ParticleArrow(this, 'v');
-		accCone = new ParticleArrow(this, 'a');
+		if (Engine.vectorsOn) {
+			velCone = new ParticleArrow(this, 'v');
+			accCone = new ParticleArrow(this, 'a');
+		}
 		thread = new ParticleThread(this);
 		thread.start();
 	}
@@ -62,8 +64,10 @@ public abstract class Particle implements Serializable{
 	public void setPos(Vector3D pos) {
 		this.pos = pos.clone();
 		sphere.updatePos(pos);
-		velCone.updatePos(vel);
-		accCone.updatePos(acc);
+		if (Engine.vectorsOn) {
+			velCone.updatePos(vel);
+			accCone.updatePos(acc);
+		}
 	}
 
 	public Vector3D getVel() {
