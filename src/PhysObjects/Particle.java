@@ -2,8 +2,6 @@ package PhysObjects;
 
 import java.io.Serializable;
 
-import javax.swing.SwingUtilities;
-
 import Control.*;
 import Reference.*;
 import Threads.ParticleThread;
@@ -14,7 +12,7 @@ public abstract class Particle implements Serializable{
 	private Vector3D pos, vel, acc; // m, m/s, m/s/s
 	private transient ParticleThread thread;
 	private transient ParticleSphere sphere;
-	private transient ParticleCone velCone, accCone;
+	private transient ParticleArrow velCone, accCone;
 	private double radius;
 	private String name;
 
@@ -50,8 +48,8 @@ public abstract class Particle implements Serializable{
 	public void start() {
 		Engine.getDisp().addToExistingParticles(this);
 		sphere = new ParticleSphere(this);
-		//velCone = new ParticleCone(this, 'v');
-		//accCone = new ParticleCone(this, 'a');
+		velCone = new ParticleArrow(this, 'v');
+		accCone = new ParticleArrow(this, 'a');
 		thread = new ParticleThread(this);
 		thread.start();
 	}
@@ -64,8 +62,8 @@ public abstract class Particle implements Serializable{
 	public void setPos(Vector3D pos) {
 		this.pos = pos.clone();
 		sphere.updatePos(pos);
-		//velCone.updatePos(vel);
-		//accCone.updatePos(acc);
+		velCone.updatePos(vel);
+		accCone.updatePos(acc);
 	}
 
 	public Vector3D getVel() {
