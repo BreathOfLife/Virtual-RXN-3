@@ -53,7 +53,7 @@ public class ParticleCreation {
 			if (atom.protons > 0) {
 				atomName = " (" + atomSymbols[atom.protons - 1] + ")";
 			} else {
-				atomName = "";
+				atomName = "eutron()";
 			}
 		} else {
 			atomName = "(" + atom.name + ")";
