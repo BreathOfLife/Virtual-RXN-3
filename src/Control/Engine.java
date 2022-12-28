@@ -31,6 +31,7 @@ public class Engine {
 	private static boolean running = false;
 	private static Display disp;
 	private static int physFPS = 60; //Usually 60
+	private static int eProbPartitions = 1; //Number of different virtual electrons that are simulated for each real electron in an effort to mimic probability fields
 
 	private static int screenFPS = 60; //Different from physFPS since the sim is calculated faster than what is actually shown on screen to ensure accuracy
 	private static boolean trailsOn = false;
@@ -40,7 +41,7 @@ public class Engine {
 	private static boolean partLabelsOn = true;
 	private static boolean labelsSubatomic = true;
 
-	private static boolean debugRunningBehindOn = true;
+	private static boolean debugRunningBehindOn = false;
 	public static boolean vectorsOn = false;
 
 	public static void main(String[] args) {
@@ -213,5 +214,13 @@ public class Engine {
 
 	public static boolean isDebugRunningBehindOn() {
 		return debugRunningBehindOn;
+	}
+
+	public static int getEProbPartitions() {
+		return eProbPartitions;
+	}
+
+	public static void setEProbPartitions(int value) {
+		eProbPartitions = value;
 	}
 }

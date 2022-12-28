@@ -9,6 +9,7 @@ import javax.media.j3d.Transform3D;
 import javax.media.j3d.TransformGroup;
 import javax.vecmath.*;
 
+import PhysObjects.Nucleus;
 import com.sun.j3d.utils.geometry.Cone;
 
 import Control.Engine;
@@ -78,6 +79,10 @@ public class ParticleArrow {
 		groupR.setTransform(rot);
 		groupCone.setTransform(coneOffset);
 		
+	}
+
+	public void delete() {
+		Engine.getDisp().removeFromUniv(groupT);
 	}
 
 }

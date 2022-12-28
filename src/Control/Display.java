@@ -150,7 +150,7 @@ public class Display extends JPanel{
 		
 		JMenu toolMenu = new JMenu("Tools");
 		menuBar.add(toolMenu);
-		JMenuItem[] toolMenuItems = {new JMenuItem("Tips"), new JMenuItem("Turn Trails On"), new JMenuItem("Clear Trails"), new JMenuItem("Change Speed"), new JMenuItem("Change Physics Engine FPS")};
+		JMenuItem[] toolMenuItems = {new JMenuItem("Tips"), new JMenuItem("Turn Trails On"), new JMenuItem("Clear Trails"), new JMenuItem("Change Speed"), new JMenuItem("Change Physics Engine FPS"), new JMenuItem("Change Electron Probability Partitions")};
 		for (JMenuItem mI : toolMenuItems) {
 			mI.setActionCommand("T-" + mI.getText());
 			mI.addActionListener(bh);
@@ -370,6 +370,10 @@ public class Display extends JPanel{
 		JOptionPane.showMessageDialog(this, tips, "Virtual RXN 3 Tips", JOptionPane.INFORMATION_MESSAGE);
 	}
 
+	public void changeEProbPartitions() {
+		SliderSetter.start("Change Electron Probability Partitions", 1, 100, Engine.getEProbPartitions());
+	}
+
 	private static class SliderSetter extends JPanel{
 		private JSlider slider;
 	    private JLabel label;
@@ -393,7 +397,15 @@ public class Display extends JPanel{
             case "Change Physics Engine FPS":
             	label.setText(slider.getValue() + " frames per second");
             	Engine.setPhysFPS(slider.getValue());
-            	break;
+				break;
+			case "Change Electron Probability Partitions":
+				if (slider.getValue() > 1) {
+					label.setText(slider.getValue() + " virtual electrons for every real electron");
+				} else {
+					label.setText(slider.getValue() + " virtual electron for every real electron");
+				}
+				Engine.setEProbPartitions(slider.getValue());
+				break;
         	default:
         		System.out.println("Unknown Slider Type");
             }
@@ -440,7 +452,7 @@ public class Display extends JPanel{
 	}
 
 	public void changeSpeed() {
-		SliderSetter.start("Change Speed", 12 * 10, 18 * 10, (int) (10 * Math.log10(Engine.getTimeMultiplier()) * -1));
+		SliderSetter.start("Change Speed", 1 * 10, 18 * 10, (int) (10 * Math.log10(Engine.getTimeMultiplier()) * -1));
 	}
 	
 	public void changePhysFPS() {

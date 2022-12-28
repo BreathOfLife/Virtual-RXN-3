@@ -201,6 +201,10 @@ public class ButtonHandler implements ActionListener {
 						//Changes Phys Engine FPS
 						Engine.getDisp().changePhysFPS();
 						break;
+					case "Change Electron Probability Partitions":
+						//Changes EProbPartitions
+						Engine.getDisp().changeEProbPartitions();
+						break;
 					default:
 						System.out.println("Error: Unregistered Action Command: " + e.getActionCommand());
 				}

@@ -63,21 +63,23 @@ public class ParticleCreation {
 			Engine.getAllParticles().add(n);
 		}
 		for (int i = 1; i <= atom.electrons; i++) {
-			int energyLevel = (int) Math.ceil(Math.sqrt(i / 2.0)); //Energy level (Bohr)
-			double hydrogenRadius = PhysCalc.bohrRadius * Math.pow(energyLevel,2.25);//^2.25 was found to approximately get to average hydrogen radius //Hydrogen Radius assumes 1 proton
-			double radius = hydrogenRadius / atom.protons;
-			Vector3D posRelToOrigin;
-			Vector3D vel;
-			if (Double.isNaN(radius) || Double.isInfinite(radius)) {
-				posRelToOrigin = new Vector3D();
-				vel = new Vector3D();
-			} else {
-				posRelToOrigin = Vector3D.random(radius);
-				vel = posRelToOrigin.crossProd(Vector3D.random(1));
+			for (int j = 1; j <= Engine.getEProbPartitions(); j++) {
+				int energyLevel = (int) Math.ceil(Math.sqrt(i / 2.0)); //Energy level (Bohr)
+				double hydrogenRadius = PhysCalc.bohrRadius * Math.pow(energyLevel, 2.25);//^2.25 was found to approximately get to average hydrogen radius //Hydrogen Radius assumes 1 proton
+				double radius = hydrogenRadius / atom.protons;
+				Vector3D posRelToOrigin;
+				Vector3D vel;
+				if (Double.isNaN(radius) || Double.isInfinite(radius)) {
+					posRelToOrigin = new Vector3D();
+					vel = new Vector3D();
+				} else {
+					posRelToOrigin = Vector3D.random(radius);
+					vel = posRelToOrigin.crossProd(Vector3D.random(1));
+				}
+
+				Electron e = new Electron(posRelToOrigin.add(originPoint), vel, "E" + i + atomName);
+				Engine.getAllParticles().add(e);
 			}
-			
-			Electron e =  new Electron(posRelToOrigin.add(originPoint), vel, "E" + i + atomName);
-			Engine.getAllParticles().add(e);
 		}
 	}
 }

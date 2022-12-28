@@ -117,6 +117,8 @@ public abstract class Particle implements Serializable{
 	public void removeFromUniv() {
 		Engine.getAllParticles().remove(this);
 		sphere.delete();
+		velCone.delete();
+		accCone.delete();
 		Engine.getDisp().removeFromExistingParticles(this);
 		if (Engine.getDisp().getGazeObj() == this) {
 			Engine.getDisp().setGazeObj(null);

@@ -8,18 +8,7 @@ import java.awt.Font;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import javax.media.j3d.Appearance;
-import javax.media.j3d.ColoringAttributes;
-import javax.media.j3d.Font3D;
-import javax.media.j3d.FontExtrusion;
-import javax.media.j3d.Geometry;
-import javax.media.j3d.Material;
-import javax.media.j3d.Node;
-import javax.media.j3d.OrientedShape3D;
-import javax.media.j3d.RenderingAttributes;
-import javax.media.j3d.Text3D;
-import javax.media.j3d.Transform3D;
-import javax.media.j3d.TransformGroup;
+import javax.media.j3d.*;
 import javax.vecmath.Color3f;
 import javax.vecmath.Point3f;
 import javax.vecmath.Vector3d;
@@ -70,19 +59,26 @@ public class ParticleSphere {
 		Color3f black = new Color3f(0.0f, 0.0f, 0.0f);
 
 		Color3f mainColor = new Color3f(Color.GRAY);
+		Color3f labelColor = new Color3f(Color.GRAY);
 		if (part.getCharge() < 0) {
-			mainColor = new Color3f(Color.CYAN);
+			labelColor = new Color3f(Color.CYAN);
+			mainColor = new Color3f(new Color(
+					(int)(((double)Color.CYAN.getRed())/((Electron) part).getEProbPartitions()),
+					(int)(((double)Color.CYAN.getGreen())/((Electron) part).getEProbPartitions()),
+					(int)(((double)Color.CYAN.getBlue())/((Electron) part).getEProbPartitions())
+			));
+
 		} else if (part.getCharge() > 0) {
+			labelColor = new Color3f(Color.RED);
 			mainColor = new Color3f(Color.RED);
 		}
 		ap.setMaterial(new Material(mainColor, black, mainColor, black, 1.0f));
-		
 		Font3D labelFont = new Font3D(new Font(Font.DIALOG, Font.BOLD, 20), new FontExtrusion());
 		Text3D labelGeom = new Text3D(labelFont, part.getName());
 		labelGeom.setAlignment(Text3D.ALIGN_CENTER);
 		Appearance labelAp = new Appearance();
 		labelAp.setRenderingAttributes(labelRA);
-		labelAp.setMaterial(new Material(mainColor, black, mainColor, black, 1.0f));
+		labelAp.setMaterial(new Material(labelColor, black, labelColor, black, 1.0f));
 		label = new OrientedShape3D(labelGeom, labelAp, OrientedShape3D.ROTATE_ABOUT_POINT, new Point3f(), true, 8e-3);
 		labelGroup = new TransformGroup();
 		labelGroup.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
@@ -154,7 +150,11 @@ public class ParticleSphere {
 			Color3f black = new Color3f(0.0f, 0.0f, 0.0f);
 			Color3f mainColor = new Color3f(Color.GRAY);
 			if (part.getCharge() < 0) {
-				mainColor = new Color3f(Color.CYAN);
+				mainColor = new Color3f(new Color(
+						(int)(((double)Color.CYAN.getRed())/((Electron) part).getEProbPartitions()),
+						(int)(((double)Color.CYAN.getGreen())/((Electron) part).getEProbPartitions()),
+						(int)(((double)Color.CYAN.getBlue())/((Electron) part).getEProbPartitions())
+				));
 			} else if (part.getCharge() > 0) {
 				mainColor = new Color3f(Color.RED);
 			}
@@ -185,6 +185,8 @@ public class ParticleSphere {
 	
 	public void delete() {
 		Engine.getDisp().removeFromUniv(group);
+		Engine.getDisp().removeFromUniv(labelGroup);
+		if (part instanceof Nucleus) {Engine.getDisp().removeFromUniv(atomLabelGroup);}
 	}
 
 	public static boolean trailsHalted() {
