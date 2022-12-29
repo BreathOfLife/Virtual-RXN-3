@@ -30,8 +30,9 @@ public class ParticleSphere {
 	private Transform3D atomLabelTrans;
 	private Transform3D trans;
 	private TransformGroup group;
-	private ArrayList<TransformGroup> trailGroups;
 	private ArrayList<Vector3D> trailBasePos;
+	private LineArray trailGeom;
+	private Shape3D trailObj;
 	private static boolean haltTrails = false;
 	private static RenderingAttributes labelRA = new RenderingAttributes();
 	private static RenderingAttributes atomLabelRA = new RenderingAttributes();
@@ -45,15 +46,8 @@ public class ParticleSphere {
 	public ParticleSphere(Particle part) {
 		this.part = part;
 		this.sphere = new Sphere((float) part.getRadius());
-		trailGroups = new ArrayList<TransformGroup>();
 		trailBasePos = new ArrayList<Vector3D>();
-		
-		this.sphere.setCapability(Node.ENABLE_PICK_REPORTING);
-		//PickTool.setCapabilities(sphere, PickTool.INTERSECT_FULL);
-		
-		
-		
-		
+
 		Appearance ap = new Appearance();
 		ap.setColoringAttributes(new ColoringAttributes(new Color3f(Color.CYAN), ColoringAttributes.NICEST));
 		Color3f black = new Color3f(0.0f, 0.0f, 0.0f);
@@ -121,6 +115,12 @@ public class ParticleSphere {
 		group.setTransform(trans);
 		group.addChild(sphere);
 		Engine.getDisp().addToUniv(group);
+
+		trailGeom = new LineArray(Engine.getMaxTrailLength()*2 - 2, 1);
+		trailGeom.setCapability(LineArray.ALLOW_COORDINATE_WRITE);
+		trailGeom.setCapability(LineArray.ALLOW_COUNT_WRITE);
+		trailObj = new Shape3D(trailGeom, ap);
+		Engine.getDisp().addToUniv(trailObj);
 	}
 	
 	public Transform3D getTrans3D() {
@@ -142,49 +142,28 @@ public class ParticleSphere {
 			atomLabelTrans.setTranslation(pos.sub(Engine.getDisp().getGazePnt()).add(0,0,part.getRadius()*2).toJ3dVec());
 			atomLabelGroup.setTransform(atomLabelTrans);
 		}
-		
+
+
+
 		if (Engine.trailsOn() && !haltTrails) {
-			//Create new trail sphere
-			Sphere trailSphere = new Sphere((float) part.getRadius());
-			Appearance ap = new Appearance();
-			Color3f black = new Color3f(0.0f, 0.0f, 0.0f);
-			Color3f mainColor = new Color3f(Color.GRAY);
-			if (part.getCharge() < 0) {
-				mainColor = new Color3f(new Color(
-						(int)(((double)Color.CYAN.getRed())/((Electron) part).getEProbPartitions()),
-						(int)(((double)Color.CYAN.getGreen())/((Electron) part).getEProbPartitions()),
-						(int)(((double)Color.CYAN.getBlue())/((Electron) part).getEProbPartitions())
-				));
-			} else if (part.getCharge() > 0) {
-				mainColor = new Color3f(Color.RED);
-			}
-			ap.setMaterial(new Material(mainColor, black, mainColor, black, 1.0f));
-			trailSphere.setAppearance(ap);
-			Transform3D trailTrans = new Transform3D();
-			TransformGroup trailGroup = new TransformGroup();
-			trailGroup.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
-			trailGroup.setCapability(TransformGroup.ALLOW_CHILDREN_WRITE);
-			trailGroup.setCapability(TransformGroup.ALLOW_CHILDREN_EXTEND);
-			trailTrans.setTranslation(pos.sub(Engine.getDisp().getGazePnt()).toJ3dVec());
-			trailGroup.setTransform(trailTrans);
-			trailGroup.addChild(trailSphere);
-			trailGroups.add(trailGroup);
 			trailBasePos.add(part.getPos());
-			Engine.getDisp().addToUniv(trailGroup);
+			if (trailBasePos.size() > Engine.getMaxTrailLength()) trailBasePos.remove(0);
 		}
 		
 		//Update all trails according to viewPoint
-		for (int i = 0; i < trailGroups.size(); i++) {
+		trailGeom.setValidVertexCount(trailBasePos.size());
+		for (int i = 1; i < trailBasePos.size() - 1; i++) {
 			Vector3D currTrailPos = trailBasePos.get(i);
-			TransformGroup currTrailGroup = trailGroups.get(i);
-			Transform3D currTrailTrans = new Transform3D();
-			currTrailTrans.setTranslation(currTrailPos.sub(Engine.getDisp().getGazePnt()).toJ3dVec());
-			currTrailGroup.setTransform(currTrailTrans);
+			Vector3D nextTrailPos = trailBasePos.get(i+1);
+			trailGeom.setCoordinate(i*2 - 2, currTrailPos.sub(Engine.getDisp().getGazePnt()).toJ3dPntF());
+			trailGeom.setCoordinate(i*2-1, nextTrailPos.sub(Engine.getDisp().getGazePnt()).toJ3dPntF());
 		}
 	}
 	
 	public void delete() {
+		deleteTrails();
 		Engine.getDisp().removeFromUniv(group);
+		Engine.getDisp().removeFromUniv(trailObj);
 		Engine.getDisp().removeFromUniv(labelGroup);
 		if (part instanceof Nucleus) {Engine.getDisp().removeFromUniv(atomLabelGroup);}
 	}
@@ -198,10 +177,6 @@ public class ParticleSphere {
 	}
 
 	public void deleteTrails() {
-		for (TransformGroup currTrailGroup : trailGroups) {
-			Engine.getDisp().removeFromUniv(currTrailGroup);
-		}
-		trailGroups.clear();
 		trailBasePos.clear();
 	}
 

@@ -43,6 +43,7 @@ public class Engine {
 
 	private static boolean debugRunningBehindOn = false;
 	public static boolean vectorsOn = false;
+	private static int maxTrailLength = 100; //Adjust this if trails are closing off too early
 
 	public static void main(String[] args) {
 		allParticles = new ArrayList<>();
@@ -222,5 +223,9 @@ public class Engine {
 
 	public static void setEProbPartitions(int value) {
 		eProbPartitions = value;
+	}
+
+	public static int getMaxTrailLength() {
+		return maxTrailLength;
 	}
 }
