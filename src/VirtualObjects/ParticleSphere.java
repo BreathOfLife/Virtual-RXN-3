@@ -147,7 +147,10 @@ public class ParticleSphere {
 
 		if (Engine.trailsOn() && !haltTrails) {
 			trailBasePos.add(part.getPos());
-			if (trailBasePos.size() > Engine.getMaxTrailLength()) trailBasePos.remove(0);
+			if (trailBasePos.size() > Engine.getMaxTrailLength()) {
+				if (Engine.getTrailMode().equals("fast")) for (int i = 1; i <= Engine.getMaxTrailLength()/2; i++) trailBasePos.remove(i);
+				else if (Engine.getTrailMode().equals("smooth")) trailBasePos.remove(0);
+			}
 		}
 		
 		//Update all trails according to viewPoint

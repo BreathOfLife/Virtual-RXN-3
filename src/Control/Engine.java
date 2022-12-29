@@ -44,6 +44,9 @@ public class Engine {
 	private static boolean debugRunningBehindOn = false;
 	public static boolean vectorsOn = false;
 	private static int maxTrailLength = 100; //Adjust this if trails are closing off too early
+	private static String trailMode = "fast";
+	//"fast" will repeatedly cut half of the trail points whenever the max trail length is reached so that it allows for longer trail length at the cost of the smoothness of the curved line,
+	//"smooth" will simply remove the oldest points when the max trail length is reached to maintain a static physical length
 
 	public static void main(String[] args) {
 		allParticles = new ArrayList<>();
@@ -227,5 +230,9 @@ public class Engine {
 
 	public static int getMaxTrailLength() {
 		return maxTrailLength;
+	}
+
+	public static String getTrailMode() {
+		return trailMode;
 	}
 }
