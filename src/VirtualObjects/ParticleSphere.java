@@ -37,6 +37,9 @@ public class ParticleSphere {
 	private static RenderingAttributes labelRA = new RenderingAttributes();
 	private static RenderingAttributes atomLabelRA = new RenderingAttributes();
 
+	private int framesPerTrailCollection = 0;
+	private int trailCollectionIndex = 0;
+
 	public static void init() {
 		labelRA.setCapability(RenderingAttributes.ALLOW_VISIBLE_WRITE);
 		atomLabelRA.setCapability(RenderingAttributes.ALLOW_VISIBLE_WRITE);
@@ -47,6 +50,8 @@ public class ParticleSphere {
 		this.part = part;
 		this.sphere = new Sphere((float) part.getRadius());
 		trailBasePos = new ArrayList<Vector3D>();
+		if (Engine.getTrailCollectionDelay() < 0) framesPerTrailCollection = 1;
+		else framesPerTrailCollection = Engine.getTrailCollectionDelay();
 
 		Appearance ap = new Appearance();
 		ap.setColoringAttributes(new ColoringAttributes(new Color3f(Color.CYAN), ColoringAttributes.NICEST));
@@ -146,11 +151,19 @@ public class ParticleSphere {
 
 
 		if (Engine.trailsOn() && !haltTrails) {
-			trailBasePos.add(part.getPos());
-			if (trailBasePos.size() > Engine.getMaxTrailLength()) {
-				if (Engine.getTrailMode().equals("fast")) for (int i = 1; i <= Engine.getMaxTrailLength()/2; i++) trailBasePos.remove(i);
-				else if (Engine.getTrailMode().equals("smooth")) trailBasePos.remove(0);
+			trailCollectionIndex++;
+			if (trailCollectionIndex % framesPerTrailCollection == 0) {
+				trailBasePos.add(part.getPos());
+				trailCollectionIndex = 0;
+				if (trailBasePos.size() > Engine.getMaxTrailLength()) {
+					if (Engine.getTrailCollectionDelay() < 0) {
+						framesPerTrailCollection++;
+						for (int i = trailBasePos.size() - 1; i > 0; i--) if (i % framesPerTrailCollection == 0) trailBasePos.remove(i);
+					}
+					else trailBasePos.remove(0);
+				}
 			}
+
 		}
 		
 		//Update all trails according to viewPoint
@@ -181,6 +194,9 @@ public class ParticleSphere {
 
 	public void deleteTrails() {
 		trailBasePos.clear();
+		trailCollectionIndex = 0;
+		if (Engine.getTrailCollectionDelay() < 0) framesPerTrailCollection = 1;
+		else framesPerTrailCollection = Engine.getTrailCollectionDelay();
 	}
 
 	public TransformGroup getTransGroup() {
