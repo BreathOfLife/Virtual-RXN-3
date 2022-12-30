@@ -156,7 +156,7 @@ public class ParticleSphere {
 				trailBasePos.add(part.getPos());
 				trailCollectionIndex = 0;
 				if (trailBasePos.size() > Engine.getMaxTrailLength()) {
-					if (Engine.getTrailCollectionDelay() < 0) {
+					if (Engine.getTrailCollectionDelay() < 0 && (Engine.getTrailCollectionDelay() != -2 || framesPerTrailCollection <= 15)) {
 						framesPerTrailCollection++;
 						for (int i = trailBasePos.size() - 1; i > 0; i--) if (i % framesPerTrailCollection == 0) trailBasePos.remove(i);
 					}

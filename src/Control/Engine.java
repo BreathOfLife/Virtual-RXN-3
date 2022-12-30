@@ -41,12 +41,14 @@ public class Engine {
 	private static boolean partLabelsOn = true;
 	private static boolean labelsSubatomic = true;
 
-	private static boolean debugRunningBehindOn = false;
+	private static boolean debugRunningBehindOn = true;
 	public static boolean vectorsOn = false;
 	private static int maxTrailLength = 100; //Adjust this if trails are closing off too early
-	private static int trailCollectionDelay = -1;
+
 	//1 indicates collecting a trail point at every frame, 2 indicates every other frame, and so on
 	//-1 indicates dynamic collection which starts at 1 and increases as the trail reaches max lengths
+	//-2 indicates dynamic collection that stops at 15 so that it doesn't get TOO jaggedy
+	private static int trailCollectionDelay = -2;
 
 	public static void main(String[] args) {
 		allParticles = new ArrayList<>();
