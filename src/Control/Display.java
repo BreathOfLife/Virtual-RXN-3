@@ -1,17 +1,12 @@
 package Control;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Cursor;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.util.ArrayList;
-import java.util.Collections;
+import java.util.*;
 import java.util.Timer;
-import java.util.TimerTask;
 
 import Reference.PhysCalc;
 import com.sun.j3d.utils.universe.*;
@@ -31,20 +26,7 @@ import com.sun.j3d.utils.behaviors.vp.*;
 import com.sun.j3d.utils.behaviors.mouse.*;
 import com.sun.j3d.utils.picking.*;
 
-import javax.media.j3d.AmbientLight;
-import javax.media.j3d.Appearance;
-import javax.media.j3d.Behavior;
-import javax.media.j3d.BoundingSphere;
-import javax.media.j3d.BranchGroup;
-import javax.media.j3d.Canvas3D;
-import javax.media.j3d.DirectionalLight;
-import javax.media.j3d.Node;
-import javax.media.j3d.PickConeRay;
-import javax.media.j3d.RenderingAttributes;
-import javax.media.j3d.Transform3D;
-import javax.media.j3d.TransformGroup;
-import javax.media.j3d.TransparencyAttributes;
-import javax.media.j3d.View;
+import javax.media.j3d.*;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -159,6 +141,7 @@ public class Display extends JPanel{
 
 		canvas = new Canvas3D(SimpleUniverse.getPreferredConfiguration());
 		canvas.setBackground(new Color(184, 204, 230));
+		canvas.setSize(getSize());
 		canvas.setDoubleBufferEnable(true);
 		add("Center", canvas);
 		universe = new SimpleUniverse(canvas);
@@ -233,9 +216,8 @@ public class Display extends JPanel{
 		customParticlePanel = new JPanel();
 		customParticlePanel.setLayout(new BoxLayout(customParticlePanel, BoxLayout.PAGE_AXIS));
 		add(customParticlePanel, BorderLayout.EAST);
-
 	}
-
+	
 	public void update() {
 		if (gazeObj != null) {
 			if (gazeChanging) {
@@ -373,6 +355,8 @@ public class Display extends JPanel{
 	public void changeEProbPartitions() {
 		SliderSetter.start("Change Electron Probability Partitions", 1, 100, Engine.getEProbPartitions());
 	}
+
+
 
 	private static class SliderSetter extends JPanel{
 		private JSlider slider;

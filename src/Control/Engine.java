@@ -41,7 +41,7 @@ public class Engine {
 	private static boolean partLabelsOn = true;
 	private static boolean labelsSubatomic = true;
 
-	private static boolean debugRunningBehindOn = true;
+	private static boolean debugRunningBehindOn = false;
 	public static boolean vectorsOn = false;
 	private static int maxTrailLength = 100; //Adjust this if trails are closing off too early
 
@@ -88,7 +88,6 @@ public class Engine {
 			}
 		};
 		frame.addWindowListener(exitListener);
-		frame.setSize(Display.WIDTH+2,Display.HEIGHT);
 	}
 
 	public static double getTimeMultiplier() {

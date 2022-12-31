@@ -23,9 +23,18 @@ public class KeyHandler extends AbstractAction {
        		break;
        	case "SPACE":
        		Engine.togglePause();
+			   /*
+			System.out.println(Engine.getFrame().getWidth() + " Y");
+			Engine.getFrame().setSize(Engine.getFrame().getWidth() + 1, Engine.getFrame().getHeight());
+
+			    */
        		break;
        	case "H":
        		Engine.toggleShowPartLabels();
+			   /*
+			System.out.println(Engine.getFrame().getWidth() + " N");
+			Engine.getFrame().setSize(Engine.getFrame().getWidth() + 1, Engine.getFrame().getHeight());
+			*/
        		break;
        	default:
        		System.out.println("Error: Unregistered Action Command: " + e.getActionCommand());
