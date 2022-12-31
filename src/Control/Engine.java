@@ -39,6 +39,7 @@ public class Engine {
 	private static JFrame frame;
 	private static boolean paused = false;
 	private static boolean partLabelsOn = true;
+	private static boolean labelsForcedOffByMouse = false;
 	private static boolean labelsSubatomic = true;
 
 	private static boolean debugRunningBehindOn = false;
@@ -209,11 +210,16 @@ public class Engine {
 	}
 
 	public static boolean isPartLabelsOn() {
-		return partLabelsOn;
+		return partLabelsOn && !labelsForcedOffByMouse;
 	}
 
 	public static void setLabelsSubatomic(boolean b) {
 		labelsSubatomic = b;
+		ParticleSphere.updateLabelVisibility();
+	}
+
+	public static void setLabelsForcedOffByMouse(boolean b) {
+		labelsForcedOffByMouse = b;
 		ParticleSphere.updateLabelVisibility();
 	}
 
@@ -235,5 +241,9 @@ public class Engine {
 
 	public static int getTrailCollectionDelay() {
 		return trailCollectionDelay;
+	}
+
+	public static boolean getLabelsForceOffByMouse() {
+		return labelsForcedOffByMouse;
 	}
 }

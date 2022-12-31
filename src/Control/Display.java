@@ -1,10 +1,7 @@
 package Control;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.KeyEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.awt.event.*;
 import java.util.*;
 import java.util.Timer;
 
@@ -217,7 +214,7 @@ public class Display extends JPanel{
 		customParticlePanel.setLayout(new BoxLayout(customParticlePanel, BoxLayout.PAGE_AXIS));
 		add(customParticlePanel, BorderLayout.EAST);
 	}
-	
+
 	public void update() {
 		if (gazeObj != null) {
 			if (gazeChanging) {
@@ -321,6 +318,32 @@ public class Display extends JPanel{
 	public void setupMouseListener() {
 		mouseHandler = new MouseHandler(canvas, mainBranch, new BoundingSphere());
 		mainBranch.addChild(mouseHandler);
+		canvas.addMouseListener(new MouseListener() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+
+			}
+
+			@Override
+			public void mousePressed(MouseEvent e) {
+				Engine.setLabelsForcedOffByMouse(true);
+			}
+
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				Engine.setLabelsForcedOffByMouse(false);
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent e) {
+
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e) {
+
+			}
+		});
 	}
 	
 	public void setupKeybinds() {

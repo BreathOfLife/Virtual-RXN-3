@@ -106,11 +106,10 @@ public class MouseHandler extends PickMouseBehavior {
         
         private void processMouseEvent(MouseEvent evt) {
             buttonPress = false;
-
             if (evt.getID()==MouseEvent.MOUSE_PRESSED |
         	evt.getID()==MouseEvent.MOUSE_CLICKED) {
-              buttonPress = true;
-              return;
+                buttonPress = true;
+                return;
             }
             else if (evt.getID() == MouseEvent.MOUSE_MOVED) {
               // Process mouse move event
