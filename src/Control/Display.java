@@ -67,7 +67,8 @@ public class Display extends JPanel{
 	private ButtonHandler bh;
 	private JMenuBar menuBar;
 	private JMenu existPartMenu;
-	
+	private Vector3D eyeToGaze;
+
 	public void init() {
 		eyePosStart = new Vector3D(1.5e-10, 0, 0);
 		gazePoint = new Vector3D();
@@ -236,7 +237,8 @@ public class Display extends JPanel{
 		Vector3d pos = new Vector3d();
 		trans.get(pos);
 		Vector3D eyePos = new Vector3D(pos);
-		if (eyePos.sub(gazePoint).getMagnitude() > 2e-10) {
+		eyeToGaze = eyePos.sub(gazePoint);
+		if (eyeToGaze.getMagnitude() > 2e-10) {
 			if (Engine.isLabelsSubatomic()) {
 				Engine.setLabelsSubatomic(false);
 			}
@@ -379,6 +381,9 @@ public class Display extends JPanel{
 		SliderSetter.start("Change Electron Probability Partitions", 1, 100, Engine.getEProbPartitions());
 	}
 
+	public Vector3D getEyeToGaze() {
+		return eyeToGaze;
+	}
 
 
 	private static class SliderSetter extends JPanel{

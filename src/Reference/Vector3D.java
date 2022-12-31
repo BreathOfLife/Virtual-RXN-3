@@ -169,4 +169,8 @@ public class Vector3D  implements Serializable{
 		Matrix3d m3d = new Matrix3d(x,0,0,y,0,0,z,0,0);
 		return m3d;
     }
+
+    public Vector3D norm() {
+		return new Vector3D(x/getMagnitude(),y/getMagnitude(),z/getMagnitude());
+    }
 }

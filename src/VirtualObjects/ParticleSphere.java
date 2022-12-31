@@ -139,7 +139,7 @@ public class ParticleSphere {
 	public void updatePos(Vector3D pos) {
 		trans.setTranslation(pos.sub(Engine.getDisp().getGazePnt()).toJ3dVec());
 		group.setTransform(trans);
-		
+
 		labelTrans.setTranslation(pos.sub(Engine.getDisp().getGazePnt()).add(0,0,part.getRadius()*2).toJ3dVec());
 		labelGroup.setTransform(labelTrans);
 
